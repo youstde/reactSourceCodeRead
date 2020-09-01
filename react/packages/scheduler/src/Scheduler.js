@@ -307,6 +307,7 @@ function unstable_scheduleCallback(callback, deprecated_options) {
     deprecated_options !== null &&
     typeof deprecated_options.timeout === 'number'
   ) {
+    // 后期将schedule独立出去后，这个if判断就会去掉，统一走else里面的逻辑
     // FIXME: Remove this branch once we lift expiration times out of React.
     expirationTime = startTime + deprecated_options.timeout;
   } else {
@@ -344,9 +345,11 @@ function unstable_scheduleCallback(callback, deprecated_options) {
   } else {
     var next = null;
     var node = firstCallbackNode;
+    // 遍历链表，根据过期时间的优先级将新的callback插入链表中相应地方
     do {
       if (node.expirationTime > expirationTime) {
         // The new callback expires before this one.
+        // 新的callback优先级大于当前节点的callback
         next = node;
         break;
       }
@@ -360,6 +363,7 @@ function unstable_scheduleCallback(callback, deprecated_options) {
       next = firstCallbackNode;
     } else if (next === firstCallbackNode) {
       // The new callback has the earliest expiration in the entire list.
+      // 当前callback的优先级是最高的
       firstCallbackNode = newNode;
       ensureHostCallbackIsScheduled();
     }
