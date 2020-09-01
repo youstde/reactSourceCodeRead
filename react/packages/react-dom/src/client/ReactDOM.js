@@ -336,6 +336,7 @@ function ReactRoot(
   isConcurrent: boolean,
   hydrate: boolean,
 ) {
+  // 此处的root是通过createFiberRoot创建的
   const root = DOMRenderer.createContainer(container, isConcurrent, hydrate);
   this._internalRoot = root;
 }

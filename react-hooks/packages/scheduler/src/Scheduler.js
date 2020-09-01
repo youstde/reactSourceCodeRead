@@ -328,14 +328,17 @@ function unstable_scheduleCallback(callback, deprecated_options) {
   // equal expiration.
   if (firstCallbackNode === null) {
     // This is the first callback in the list.
+    // 这是第一个callback，初始化一下指针
     firstCallbackNode = newNode.next = newNode.previous = newNode;
     ensureHostCallbackIsScheduled();
   } else {
     var next = null;
     var node = firstCallbackNode;
+    // 编辑链表，进行优先级的比对，然后将newNode插入相应位置
     do {
       if (node.expirationTime > expirationTime) {
         // The new callback expires before this one.
+        // 新的callback的优先级是高于当前callback的
         next = node;
         break;
       }
@@ -345,6 +348,7 @@ function unstable_scheduleCallback(callback, deprecated_options) {
     if (next === null) {
       // No callback with a later expiration was found, which means the new
       // callback has the latest expiration in the list.
+      // 新的callback的优先级是最低的
       next = firstCallbackNode;
     } else if (next === firstCallbackNode) {
       // The new callback has the earliest expiration in the entire list.

@@ -1842,6 +1842,7 @@ function scheduleCallbackWithExpirationTime(
       // Existing callback has sufficient timeout. Exit.
       return;
     } else {
+      // 如果新的优先级要更高，则取消掉之前的callback
       if (callbackID !== null) {
         // Existing callback has insufficient timeout. Cancel and schedule a
         // new one.
