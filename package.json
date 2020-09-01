@@ -1,0 +1,19 @@
+{
+  "name": "react-class-source-code",
+  "version": "1.0.0",
+  "description": "React16.x源码阅读",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youstde/reactSourceCodeRead.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youstde/reactSourceCodeRead/issues"
+  },
+  "homepage": "https://github.com/youstde/reactSourceCodeRead#readme"
+}
