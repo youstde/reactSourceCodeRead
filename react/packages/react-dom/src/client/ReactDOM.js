@@ -526,9 +526,11 @@ function legacyRenderSubtreeIntoContainer(
 
   // TODO: Without `any` type, Flow says "Property cannot be accessed on any
   // member of intersection type." Whyyyyyy.
+  // 初始化的时候root肯定是不存在的
   let root: Root = (container._reactRootContainer: any);
   if (!root) {
     // Initial mount
+    // 这个地方创建一个root，同时赋值给container._reactRootContainer
     root = container._reactRootContainer = legacyCreateRootFromDOMContainer(
       container,
       forceHydrate,
@@ -625,6 +627,7 @@ const ReactDOM: Object = {
     return DOMRenderer.findHostInstance(componentOrElement);
   },
 
+  // 用来调和container中存在的节点，一般是用在服务端渲染中
   hydrate(element: React$Node, container: DOMContainer, callback: ?Function) {
     // TODO: throw or warn if we couldn't hydrate?
     return legacyRenderSubtreeIntoContainer(

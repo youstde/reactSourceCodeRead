@@ -1721,6 +1721,7 @@ function scheduleWorkToRoot(fiber: Fiber, expirationTime): FiberRoot | null {
 }
 
 function scheduleWork(fiber: Fiber, expirationTime: ExpirationTime) {
+  // 找到当前fiber的FiberRoot
   const root = scheduleWorkToRoot(fiber, expirationTime);
   if (root === null) {
     return;
@@ -1731,6 +1732,7 @@ function scheduleWork(fiber: Fiber, expirationTime: ExpirationTime) {
     nextRenderExpirationTime !== NoWork &&
     expirationTime < nextRenderExpirationTime
   ) {
+    // 这个地方就是有优先级比较高的任务打断优先级低的任务，然后进行重置
     // This is an interruption. (Used for performance tracking.)
     interruptedBy = fiber;
     resetStack();
@@ -1742,8 +1744,10 @@ function scheduleWork(fiber: Fiber, expirationTime: ExpirationTime) {
     !isWorking ||
     isCommitting ||
     // ...unless this is a different root than the one we're rendering.
+    // 对于单root的应用，这个nextRoot === root
     nextRoot !== root
   ) {
+    // 这个地方是当前没有在工作的任务或者在提交状态，此时是可以请求新的work
     const rootExpirationTime = root.expirationTime;
     requestWork(root, rootExpirationTime);
   }

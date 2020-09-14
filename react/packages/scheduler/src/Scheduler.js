@@ -217,6 +217,7 @@ function flushWork(didTimeout) {
         // This optimizes for as few performance.now calls as possible.
         var currentTime = getCurrentTime();
         if (firstCallbackNode.expirationTime <= currentTime) {
+          // 将所有过期callback强制执行掉
           do {
             flushFirstCallback();
           } while (
@@ -230,6 +231,7 @@ function flushWork(didTimeout) {
     } else {
       // Keep flushing callbacks until we run out of time in the frame.
       if (firstCallbackNode !== null) {
+        // 执行callback在帧时间还有剩余的时候
         do {
           flushFirstCallback();
         } while (
@@ -474,6 +476,7 @@ var cancelHostCallback;
 var getFrameDeadline;
 
 if (typeof window !== 'undefined' && window._schedMock) {
+  // react提供的mock指定方法的能力，跟主线无关
   // Dynamic injection, only for testing purposes.
   var impl = window._schedMock;
   requestHostCallback = impl[0];
@@ -487,6 +490,7 @@ if (typeof window !== 'undefined' && window._schedMock) {
   // if this is a mocked "window" object. So we need to validate that too.
   typeof window.addEventListener !== 'function'
 ) {
+  // 这个判断是当前环境为非浏览器环境
   var _callback = null;
   var _currentTime = -1;
   var _flushCallback = function(didTimeout, ms) {
@@ -521,6 +525,7 @@ if (typeof window !== 'undefined' && window._schedMock) {
     return _currentTime === -1 ? 0 : _currentTime;
   };
 } else {
+  // 兼容性判断，是否需要加载pollfill
   if (typeof console !== 'undefined') {
     // TODO: Remove fb.me link
     if (typeof localRequestAnimationFrame !== 'function') {

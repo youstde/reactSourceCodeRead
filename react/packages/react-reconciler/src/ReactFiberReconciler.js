@@ -159,6 +159,7 @@ export function updateContainerAtExpirationTime(
   callback: ?Function,
 ) {
   // TODO: If this is a nested container, this won't be the root.
+  // root Fiber
   const current = container.current;
 
   if (__DEV__) {
